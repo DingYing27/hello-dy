@@ -1,0 +1,45 @@
+#include<iostream>
+#include<queue>
+#include<vector>
+#include"Heap.h"
+using namespace std;
+
+template<class T>
+struct BTNode//结点结构体
+{
+	T data;
+	BTNode *left, *right;
+	BTNode(const T&item = T(), BTNode*lptr = NULL, BTNode*rptr = NULL) :data(item), left(lptr), right(rptr) {}
+};
+template<class T>
+BTNode<T> *GetBTNode(const T&item, BTNode<T> *lp = NULL, BTNode<T> *rp = NULL)//建立二叉链表结点
+{
+	BTNode<T> *p;
+	p = new BTNode<T>(item, lp, rp);
+	if (p == NULL)
+	{
+		cerr << "memory allocation failure" << endl;
+	}
+	return p;
+}
+
+//垂直输出二叉树
+struct Location//建立位置坐标
+{
+	int xindent, ylevel;//结点坐标位置
+};
+void Gotoxy(int x, int y)//输出位置
+{
+	static int level = 0, indent = 0;
+	if (y == 0)//重新输出二叉树时要重新赋值
+	{
+		indent = 0; level = 0;
+	}
+	if (level != y)//若层数增加，则缩进量从0开始
+	{
+		cout << endl;
+		indent = 0; level++;
+	}
+	cout.width(x - indent);//根据已有缩进量，确定当前缩进量
+	indent = x;//记录当前的缩进量
+}
